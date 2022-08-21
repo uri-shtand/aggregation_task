@@ -12,4 +12,4 @@ we are dealing with two different CRM systems, managed separately and independen
 * No implementation of negative/bad flow and no tests for that.
 * Used a single model object for banana and strawberry cases. 
   * In real life would probably split to two objects with shared interface even if identical.
-* 
+* I didn't know if the 

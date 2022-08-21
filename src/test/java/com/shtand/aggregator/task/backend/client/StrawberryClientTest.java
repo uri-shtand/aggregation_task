@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.client.MockRestServiceServer;
 
+import java.util.List;
+
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
@@ -37,7 +39,7 @@ class StrawberryClientTest {
         strawberryCaseList.setData(new BaseCase[]{case1});
         server.expect(requestTo("/homeassignment/strawberry")).
                 andRespond(withSuccess(objectMapper.writeValueAsString(strawberryCaseList), MediaType.APPLICATION_JSON));
-        StrawberryCaseList cases = strawberryClient.getCases();
-        Assertions.assertThat(cases.getData()[0]).isEqualTo(case1);
+        List<BaseCase> cases = strawberryClient.getCases();
+        Assertions.assertThat(cases.get(0)).isEqualTo(case1);
     }
 }
