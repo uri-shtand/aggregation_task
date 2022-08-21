@@ -1,8 +1,9 @@
-package com.shtand.aggregator.task.backend;
+package com.shtand.aggregator.task.backend.service;
 
 import com.shtand.aggregator.task.backend.model.*;
 import com.shtand.aggregator.task.backend.reader.CrmAggregatorLogic;
 import com.shtand.aggregator.task.backend.reader.CrmCaseFetchService;
+import com.shtand.aggregator.task.backend.repo.AggregatedCaseCustomRepository;
 import com.shtand.aggregator.task.backend.repo.AggregatedCaseRepository;
 import com.shtand.aggregator.task.backend.service.AggregatedCaseConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,12 +27,14 @@ public class CrmService {
 
     private AggregatedCaseRepository aggregatedCaseRepository;
 
+    private AggregatedCaseCustomRepository aggregatedCaseCustomRepository;
     private AggregatedCaseConverter aggregatedCaseConverter;
 
-    public CrmService(CrmCaseFetchService crmCaseFetchService, CrmAggregatorLogic crmAggregatorLogic, AggregatedCaseRepository aggregatedCaseRepository, AggregatedCaseConverter aggregatedCaseConverter) {
+    public CrmService(CrmCaseFetchService crmCaseFetchService, CrmAggregatorLogic crmAggregatorLogic, AggregatedCaseRepository aggregatedCaseRepository, AggregatedCaseCustomRepository aggregatedCaseCustomRepository, AggregatedCaseConverter aggregatedCaseConverter) {
         this.crmCaseFetchService = crmCaseFetchService;
         this.crmAggregatorLogic = crmAggregatorLogic;
         this.aggregatedCaseRepository = aggregatedCaseRepository;
+        this.aggregatedCaseCustomRepository = aggregatedCaseCustomRepository;
         this.aggregatedCaseConverter = aggregatedCaseConverter;
     }
 
@@ -64,8 +68,8 @@ public class CrmService {
         }
     }
 
-    public List<AggregatedCaseDto> getAggregations() {
-        return aggregatedCaseRepository.findAll().stream()
+    public List<AggregatedCaseDto> getAggregations(Optional<String> providerName, Optional<String> caseStatus) {
+        return aggregatedCaseCustomRepository.findAggregatedCases(providerName,caseStatus).stream()
                 .map(aggregatedCaseConverter)
                 .collect(Collectors.toList());
     }

@@ -25,6 +25,7 @@ public class AggregatedCaseFactory {
                 .errorCode(errorCode)
                 .productsAffected(productsAffected)
                 .caseIds(caseIds)
+                .caseStatus(baseCase.getStatus())
                 .build();
     }
 
@@ -34,7 +35,7 @@ public class AggregatedCaseFactory {
      * @return
      */
     public String generateId(BaseCase baseCase) {
-        return baseCase.getCreatedErrorCode() + "_" + baseCase.getProviderId();
+        return baseCase.getCreatedErrorCode() + "_" + baseCase.getProviderId()+"_"+baseCase.getStatus();
     }
 
     public AggregatedCase addCase(AggregatedCase aggregatedCase1, AggregatedCase aggregatedCase2) {

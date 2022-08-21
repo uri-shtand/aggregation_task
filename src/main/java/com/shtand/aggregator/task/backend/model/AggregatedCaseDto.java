@@ -19,5 +19,5 @@ public class AggregatedCaseDto {
     private Set<String> productsAffected;
     private int numberOfSupportCases;
     private List<Long> caseIds;
-
+    private String caseStatus;
 }

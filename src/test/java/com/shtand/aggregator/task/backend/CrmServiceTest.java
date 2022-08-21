@@ -7,9 +7,10 @@ import com.shtand.aggregator.task.backend.model.BaseCase;
 import com.shtand.aggregator.task.backend.model.RefreshResponse;
 import com.shtand.aggregator.task.backend.reader.CrmAggregatorLogic;
 import com.shtand.aggregator.task.backend.reader.CrmCaseFetchService;
+import com.shtand.aggregator.task.backend.repo.AggregatedCaseCustomRepository;
 import com.shtand.aggregator.task.backend.repo.AggregatedCaseRepository;
 import com.shtand.aggregator.task.backend.service.AggregatedCaseConverter;
-import org.assertj.core.api.Assertions;
+import com.shtand.aggregator.task.backend.service.CrmService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -46,6 +48,9 @@ class CrmServiceTest {
     @Mock
     private AggregatedCaseDto aggCase1Dto;
 
+    @Mock
+    private AggregatedCaseCustomRepository aggregatedCaseCustomRepository;
+
     @Test
     void refresh() {
         when(crmCaseFetchService.fetchCases()).thenReturn(ImmutableList.of(baseCase1));
@@ -62,9 +67,10 @@ class CrmServiceTest {
 
     @Test
     void getAll() {
-        when(aggregatedCaseRepository.findAll()).thenReturn(ImmutableList.of(aggCase1));
+        when(aggregatedCaseCustomRepository.findAggregatedCases(Optional.empty(),Optional.empty()))
+                .thenReturn(ImmutableList.of(aggCase1));
         when(aggregatedCaseConverter.apply(aggCase1)).thenReturn(aggCase1Dto);
-        List<AggregatedCaseDto> aggregations = crmService.getAggregations();
+        List<AggregatedCaseDto> aggregations = crmService.getAggregations(Optional.empty(),Optional.empty());
         assertThat(aggregations.get(0)).isEqualTo(aggCase1Dto);
     }
 }

@@ -18,6 +18,7 @@ public class AggregatedCaseConverter implements Function<AggregatedCase,Aggregat
                 .numberOfSupportCases(aggregatedCase.getNumberOfSupportCases())
                 .productsAffected(aggregatedCase.getProductsAffected())
                 .providerName(aggregatedCase.getProviderName())
+                .caseStatus(aggregatedCase.getCaseStatus())
                 .build();
     }
 }
