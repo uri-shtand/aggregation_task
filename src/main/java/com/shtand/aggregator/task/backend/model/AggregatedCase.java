@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 @Builder(toBuilder = true)
-@Document
+@Document(collection = "AggregatedCase")
 public class AggregatedCase {
 
     @Id
