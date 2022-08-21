@@ -1,17 +1,16 @@
 package com.shtand.aggregator.task.backend;
 
-import com.shtand.aggregator.task.backend.model.AggregatedCase;
-import com.shtand.aggregator.task.backend.model.BaseCase;
-import com.shtand.aggregator.task.backend.model.CrmException;
-import com.shtand.aggregator.task.backend.model.RefreshResponse;
+import com.shtand.aggregator.task.backend.model.*;
 import com.shtand.aggregator.task.backend.reader.CrmAggregatorLogic;
 import com.shtand.aggregator.task.backend.reader.CrmCaseFetchService;
 import com.shtand.aggregator.task.backend.repo.AggregatedCaseRepository;
+import com.shtand.aggregator.task.backend.service.AggregatedCaseConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -26,10 +25,13 @@ public class CrmService {
 
     private AggregatedCaseRepository aggregatedCaseRepository;
 
-    public CrmService(CrmCaseFetchService crmCaseFetchService, CrmAggregatorLogic crmAggregatorLogic, AggregatedCaseRepository aggregatedCaseRepository) {
+    private AggregatedCaseConverter aggregatedCaseConverter;
+
+    public CrmService(CrmCaseFetchService crmCaseFetchService, CrmAggregatorLogic crmAggregatorLogic, AggregatedCaseRepository aggregatedCaseRepository, AggregatedCaseConverter aggregatedCaseConverter) {
         this.crmCaseFetchService = crmCaseFetchService;
         this.crmAggregatorLogic = crmAggregatorLogic;
         this.aggregatedCaseRepository = aggregatedCaseRepository;
+        this.aggregatedCaseConverter = aggregatedCaseConverter;
     }
 
     @Scheduled(initialDelay = 10000, fixedDelayString = "${refresh.delay}")
@@ -60,5 +62,11 @@ public class CrmService {
             log.error("Failed to refresh CRM cases",e);
             throw new CrmException(e,"Failed to refresh CRM cases");
         }
+    }
+
+    public List<AggregatedCaseDto> getAggregations() {
+        return aggregatedCaseRepository.findAll().stream()
+                .map(aggregatedCaseConverter)
+                .collect(Collectors.toList());
     }
 }
