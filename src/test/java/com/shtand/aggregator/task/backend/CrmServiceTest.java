@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,9 +41,14 @@ class CrmServiceTest {
     void refresh() {
         when(crmCaseFetchService.fetchCases()).thenReturn(ImmutableList.of(baseCase1));
         when(crmAggregatorLogic.aggregateCases(ImmutableList.of(baseCase1))).thenReturn(ImmutableList.of(aggCase1));
-        RefreshResponse refresh = crmService.refresh();
+        RefreshResponse refresh = crmService.refreshIfNeeded();
         verify(aggregatedCaseRepository).deleteAll();
         verify(aggregatedCaseRepository).saveAll(ImmutableList.of(aggCase1));
-        Assertions.assertThat(refresh.getTotalAggregatedCaseCount()).isEqualTo(1);
+        assertThat(refresh.getTotalAggregatedCaseCount()).isEqualTo(1);
+        assertThat(refresh.getLastRefreshTimestamp()).isPositive();
+        assertThat(refresh.isSkippedRefresh()).isFalse();
+        RefreshResponse refresh2 = crmService.refreshIfNeeded();
+        assertThat(refresh2.isSkippedRefresh()).isTrue();
     }
+
 }

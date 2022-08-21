@@ -26,6 +26,6 @@ public class AggregationController {
 
     @PostMapping("/refresh")
     public RefreshResponse refresh() {
-        return crmService.refresh();
+        return crmService.refreshIfNeeded();
     }
 }

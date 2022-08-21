@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RefreshResponse {
     private int totalAggregatedCaseCount;
+    private boolean skippedRefresh;
+    private long lastRefreshTimestamp;
 }
