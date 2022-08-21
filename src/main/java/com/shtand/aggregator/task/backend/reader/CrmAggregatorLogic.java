@@ -14,18 +14,15 @@ public class CrmAggregatorLogic {
 
     private final AggregatedCaseFactory aggregatedCaseFactory;
 
-    public CrmAggregatorLogic(CrmCaseFetchService crmCaseFetchService, AggregatedCaseFactory aggregatedCaseFactory) {
+    public CrmAggregatorLogic(AggregatedCaseFactory aggregatedCaseFactory) {
         this.aggregatedCaseFactory = aggregatedCaseFactory;
     }
 
     public List<AggregatedCase> aggregateCases(List<BaseCase> baseCases) {
-        Map<String, AggregatedCase> caseMap = baseCases.stream().collect(Collectors.toMap(this::keyMapper, aggregatedCaseFactory::createAggregatedCase, aggregatedCaseFactory::addCase));
+        Map<String, AggregatedCase> caseMap = baseCases.stream()
+                .map(aggregatedCaseFactory::createAggregatedCase)
+                .collect(Collectors.toMap(a -> a.getId(), a -> a, aggregatedCaseFactory::addCase));
         return new ArrayList<>(caseMap.values());
     }
 
-
-    private String keyMapper(BaseCase baseCase) {
-        //This is the aggregation logic
-        return baseCase.getCreatedErrorCode() + "_" + baseCase.getProviderId();
-    }
 }

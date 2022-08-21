@@ -17,8 +17,9 @@ public class CrmCaseFetchService {
     }
 
     public List<BaseCase> fetchCases() {
-        return crmClients.stream().map(crmClient -> crmClient.getCases())
+        List<BaseCase> baseCases = crmClients.stream().map(crmClient -> crmClient.getCases())
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
+        return baseCases;
     }
 }

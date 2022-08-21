@@ -20,11 +20,21 @@ public class AggregatedCaseFactory {
         Set<String> productsAffected = Sets.newHashSet(baseCase.getProductName());
         ArrayList<Long> caseIds = Lists.newArrayList(baseCase.getCaseId());
         return AggregatedCase.builder()
+                .id(generateId(baseCase))
                 .numberOfSupportCases(1)
                 .errorCode(errorCode)
                 .productsAffected(productsAffected)
                 .caseIds(caseIds)
                 .build();
+    }
+
+    /**
+     * Aggregation Logic depends on that as well as the database re-population
+     * @param baseCase
+     * @return
+     */
+    public String generateId(BaseCase baseCase) {
+        return baseCase.getCreatedErrorCode() + "_" + baseCase.getProviderId();
     }
 
     public AggregatedCase addCase(AggregatedCase aggregatedCase1, AggregatedCase aggregatedCase2) {

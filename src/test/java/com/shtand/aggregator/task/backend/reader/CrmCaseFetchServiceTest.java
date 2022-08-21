@@ -2,18 +2,17 @@ package com.shtand.aggregator.task.backend.reader;
 
 import com.google.common.collect.ImmutableList;
 import com.shtand.aggregator.task.backend.client.CrmClient;
+import com.shtand.aggregator.task.backend.model.AggregatedCase;
 import com.shtand.aggregator.task.backend.model.BaseCase;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
