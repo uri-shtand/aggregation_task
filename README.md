@@ -6,11 +6,23 @@ we are dealing with two different CRM systems, managed separately and independen
 
 The aggregation service refreshes the CRM state every 4 hours.
 
+## Running the service
+
 The service requires MongoDB to operate. In its current state - only embedded MONGO is supported.
 
+It also requires JAVA 11 at least 
+
 In order to use an external MongoDB, start by changing the de.flapdoodle.embed.mongo maven artifact to "test" artifact and add relevant application properties.
+(Did not test due to lack of time)
 
 You can check the application properties for the things which can be configured 
+
+This is a spring boot application. 
+### build using maven 
+    mvnw clean install
+
+### run using mvnw spring boot plugin 
+    mvnw spring-boot:run
 
 ## URLs
 
@@ -30,3 +42,4 @@ POST http://serverUrl/caseagg/aggregation/refresh
 * Aggregation logic is to unify all cases with same error code , provider id and case status
 * Implemented partial filtering due to time constraints.
 * Did not implement sort (which I would in real life) due to time constraints
+
