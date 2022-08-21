@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * "Case ID": 1,
+ * BANANA:
+ *
+ * {"Case ID": 1,
  * "Customer_ID": 818591,
  * "Provider": 6111,
  * "CREATED_ERROR_CODE": 324,
@@ -16,6 +18,18 @@ import lombok.NoArgsConstructor;
  * "TICKET_CREATION_DATE": "3/14/2019 16:30",
  * "LAST_MODIFIED_DATE": "3/17/2019 3:41",
  * "PRODUCT_NAME": "BLUE"
+ * }
+ * STRAWBERRY:
+ * {
+ *    "Case ID": 2,
+ *    "Customer ID": 790521,
+ *    "Provider": 11196,
+ *    "CREATED_ERROR_CODE": 108,
+ *    "STATUS": "Open",
+ *    "TICKET_CREATION_DATE": "3/22/2019 14:33",
+ *    "LAST_MODIFIED_DATE": "3/23/2019 23:00",
+ *    "PRODUCT_NAME": "GREEN"
+ * },
  */
 @Builder(toBuilder = true)
 @Data
@@ -28,7 +42,7 @@ public class BaseCase {
     @JsonProperty("Case ID")
     private Long caseId;
 
-    @JsonProperty("Customer_ID")
+    @JsonProperty("Customer ID")
     private Long customerId;
 
     @JsonProperty("Provider")

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shtand.aggregator.task.backend.model.BananaCaseList;
 import com.shtand.aggregator.task.backend.model.BaseCase;
+import com.shtand.aggregator.task.backend.model.StrawberryCaseList;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,15 +14,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.client.MockRestServiceServer;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @ExtendWith(SpringExtension.class)
-@RestClientTest(BananaClient.class)
-class BananaClientTest {
+@RestClientTest(StrawberryClient.class)
+class StrawberryClientTest {
 
     @Autowired
-    private BananaClient bananaClient;
+    private StrawberryClient strawberryClient;
 
     @Autowired
     private MockRestServiceServer server;
@@ -31,12 +32,12 @@ class BananaClientTest {
 
     @Test
     void successfulCase() throws JsonProcessingException {
-        BananaCaseList bananaCaseList = new BananaCaseList();
+        StrawberryCaseList strawberryCaseList = new StrawberryCaseList();
         BaseCase case1 = BaseCase.builder().caseId(1L).build();
-        bananaCaseList.setData(new BaseCase[]{case1});
-        server.expect(requestTo("/homeassignment/banana")).
-                andRespond(withSuccess(objectMapper.writeValueAsString(bananaCaseList), MediaType.APPLICATION_JSON));
-        BananaCaseList cases = bananaClient.getCases();
+        strawberryCaseList.setData(new BaseCase[]{case1});
+        server.expect(requestTo("/homeassignment/strawberry")).
+                andRespond(withSuccess(objectMapper.writeValueAsString(strawberryCaseList), MediaType.APPLICATION_JSON));
+        StrawberryCaseList cases = strawberryClient.getCases();
         Assertions.assertThat(cases.getData()[0]).isEqualTo(case1);
     }
 }
