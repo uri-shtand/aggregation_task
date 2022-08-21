@@ -1,5 +1,6 @@
 package com.shtand.aggregator.task.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,19 +8,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *    "Case ID": 1,
- *    "Customer_ID": 818591,
- *    "Provider": 6111,
- *    "CREATED_ERROR_CODE": 324,
- *    "STATUS": "Open",
- *    "TICKET_CREATION_DATE": "3/14/2019 16:30",
- *    "LAST_MODIFIED_DATE": "3/17/2019 3:41",
- *    "PRODUCT_NAME": "BLUE"
+ * "Case ID": 1,
+ * "Customer_ID": 818591,
+ * "Provider": 6111,
+ * "CREATED_ERROR_CODE": 324,
+ * "STATUS": "Open",
+ * "TICKET_CREATION_DATE": "3/14/2019 16:30",
+ * "LAST_MODIFIED_DATE": "3/17/2019 3:41",
+ * "PRODUCT_NAME": "BLUE"
  */
 @Builder(toBuilder = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseCase {
 
 
